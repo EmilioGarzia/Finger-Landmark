@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balloon</title>
+    <style>
+        *{
+            cursor: url('images/cursor.png') 5 5, crosshair;
+        }
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #87CEEB;
+        }
+        .counter {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #333;
+            font-family: Arial, sans-serif;
+            z-index: 10;
+        }
+        .button-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+        .button {
+            padding: 10px 15px;
+            font-size: 16px;
+            margin-right: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .balloon {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-color: #ff4d4d;
+            border-radius: 50%;
+            animation: floatBalloon 0.3s infinite ease-in-out;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 30px;
+            background-color: #333;
+            border-radius: 0 0 5px 5px;
+        }
+        @keyframes floatBalloon {
+            0% { transform: translateY(100vh); }
+            100% { transform: translateY(-150px); }
+        }
+        footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            color: #333;
+            font-family: Arial, sans-serif;
+            z-index: 10;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="counter">Score: <span id="balloonCount">0</span></div>
+    
+    <div class="button-container">
+        <button class="button" id="resetButton">Reset score</button>
+        <button class="button" id="fullscreenButton">Full Screen</button>
+    </div>
+    
+    <script>
+        let count = 0;
+
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+
+            balloon.style.left = Math.random() * window.innerWidth + 'px';
+            balloon.style.backgroundColor = getRandomColor();
+            balloon.style.animationDuration = (Math.random() * 20 + 10) + 's';
+
+            balloon.addEventListener('click', () => {
+                count++;
+                document.getElementById('balloonCount').innerText = count;
+                balloon.style.transform = 'scale(0.1)';
+                balloon.style.opacity = '0';
+                setTimeout(() => balloon.remove(), 300);
+            });
+
+            document.body.appendChild(balloon);
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        setInterval(createBalloon, 1500);
+
+        document.getElementById('resetButton').addEventListener('click', () => {
+            count = 0;
+            document.getElementById('balloonCount').innerText = count;
+        });
+
+        document.getElementById('fullscreenButton').addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        });
+    </script>
+
+    <footer>
+        Developed by <i>Emilio Garzia</i>, Università degli studi di Napoli Parthenope
+    </footer>
+</body>
+</html>
