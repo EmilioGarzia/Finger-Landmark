@@ -6,6 +6,7 @@
 	- [Dependencies](#dependencies)
 	- [Used technologies](#used-technologies)
 	- [Screenshot](#screenshot)
+	- [More on the finger labels](#more-on-the-finger-labels)
 	- [External references](#external-references)
 	- [Author](#author)
 <!-- toc end [do not erase this comment] -->
@@ -24,6 +25,13 @@ The second part of my project consisted to an objective which used the features 
 
 ## How to use
 
+Run the model with:
+```shell
+python main.py --hand <l|r>
+```
+
+To run the Balloon Burst game you have to open the `index.html` with your default system browser.
+
 ## Dependencies
 
 * `OpenCV`
@@ -37,6 +45,14 @@ The second part of my project consisted to an objective which used the features 
 * CSS
 
 ## Screenshot
+
+![Balloon game screenshot](images/screenshot.png)
+
+## More on the finger labels
+
+Below you can see a label map that I used to map the fingers parts in order to the mediapipe.
+
+![finger labels](images/hand-landmarks.png)
 
 ## External references
 

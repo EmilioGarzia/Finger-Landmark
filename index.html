@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Balloon</title>
+    
+    <!-------------------------- Stylesheet ----------------------->
     <style>
         *{
             cursor: url('images/cursor.png') 5 5, crosshair;
@@ -83,6 +85,8 @@
         }
     </style>
 </head>
+
+<!--------------------------- Main elements --------------------------->
 <body>
     <div class="counter">Score: <span id="balloonCount">0</span></div>
     
@@ -90,7 +94,8 @@
         <button class="button" id="resetButton">Reset score</button>
         <button class="button" id="fullscreenButton">Full Screen</button>
     </div>
-    
+
+<!--------------------------------- Scripts --------------------------------->
     <script>
         let count = 0;
 
@@ -102,6 +107,7 @@
             balloon.style.backgroundColor = getRandomColor();
             balloon.style.animationDuration = (Math.random() * 20 + 10) + 's';
 
+            // Balloon click handler
             balloon.addEventListener('click', () => {
                 count++;
                 document.getElementById('balloonCount').innerText = count;
@@ -122,13 +128,16 @@
             return color;
         }
 
+        // Create a balloon every 1.5 seconds
         setInterval(createBalloon, 1500);
 
+        // Counter increaser function
         document.getElementById('resetButton').addEventListener('click', () => {
             count = 0;
             document.getElementById('balloonCount').innerText = count;
         });
 
+        // Full screen button listener
         document.getElementById('fullscreenButton').addEventListener('click', () => {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen();
@@ -136,8 +145,16 @@
                 document.exitFullscreen();
             }
         });
+
+        // remove all balloons on the screen every 5 minutes
+        setInterval(()=>{
+            const balloons = document.getElementsByClassName("balloon");
+            while(balloons.length > 0)
+                balloons[0].remove();
+        }, 300000)
     </script>
 
+<!----------------------------------- Footer --------------------------->
     <footer>
         Developed by <i>Emilio Garzia</i>, Università degli studi di Napoli Parthenope
     </footer>

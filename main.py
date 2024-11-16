@@ -1,4 +1,4 @@
-# 1.4 Mediapipe - Touching and Left or Right
+# Finger Landmark
 #
 # @description Using openCV and Mediapipe to mark only specifics finger on the hand.
 #              In this source code you can find also a function to compute the distance between two fingers and also if them touch.
@@ -13,8 +13,17 @@ import pyautogui as pg
 import modules.colours as colours
 from modules.fingers import FINGER_LIST
 import pyautogui
+import argparse as ap
 
-choosed_hand = "Right"
+# Argument parser
+parser = ap.ArgumentParser()
+parser.add_argument("-H", "--hand", default="r", help="'l' for left hand, 'r' for right hand", choices=["l","r"])
+parser.add_argument("-n", "--nodebug", action="store_true", default=False, help="Show/Hide the camera window debug")
+args = vars(parser.parse_args())
+
+print(args["nodebug"])
+
+choosed_hand = args["hand"]
 
 # This function return x,y coordinates of the specified finger points
 def coordinates_of(finger, frame):
@@ -38,9 +47,9 @@ def is_touched(finger1, finger2, threshold):
 def is_left_or_right(threshold):
     wrist_x = hand_landmarks.landmark[mp_hands.HandLandmark.WRIST].x
     if wrist_x > threshold:
-        return "Left"
+        return "l"
     else:
-        return "Right"
+        return "r"
 
 # Draw a circle around the finger point
 def mark_finger(frame, finger_point, color=(255,0,0)):
@@ -104,14 +113,17 @@ while True:
                     cv.putText(frame, "RIGHT", (50,50), cv.FONT_HERSHEY_SIMPLEX, 1, colours.GREEN, 2, cv.LINE_AA)
                     pyautogui.moveTo(cursor_position.x+30,cursor_position.y, duration=0.05)
 
+            # Uncomment this block to print a label that indicate the shown hand
             """ # Check left or right hand
             who = is_left_or_right(0.5)
             if who == "Right":
                 cv.putText(frame, "RIGHT HAND", (430,100), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv.LINE_AA)               
             elif who == "Left":
                 cv.putText(frame, "LEFT HAND", (50,100), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv.LINE_AA) """              
-                
-    cv.imshow("Camera", frame)
+
+    # Show debug window
+    if not args["nodebug"]:
+        cv.imshow("Camera", frame)
 
     if cv.waitKey(1) & 0xFF == ord('q'):
         break
