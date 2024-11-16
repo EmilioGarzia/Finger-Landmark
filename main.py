@@ -21,8 +21,6 @@ parser.add_argument("-H", "--hand", default="r", help="'l' for left hand, 'r' fo
 parser.add_argument("-n", "--nodebug", action="store_true", default=False, help="Show/Hide the camera window debug")
 args = vars(parser.parse_args())
 
-print(args["nodebug"])
-
 choosed_hand = args["hand"]
 
 # This function return x,y coordinates of the specified finger points
